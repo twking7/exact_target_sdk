@@ -46,7 +46,13 @@ class Client
 
     response = execute_request 'Create' do |xml|
       xml.CreateRequest do
-        xml.Options  # TODO: support CreateOptions
+        xml.Options do
+          xml.RequestType "Asynchronous"
+          xml.SendResponseTo do
+            xml.ResponseType "None"
+            xml.RespondWhen "Never"
+          end
+        end
 
         api_objects.each do |api_object|
           xml.Objects "xsi:type" => api_object.type_name do
